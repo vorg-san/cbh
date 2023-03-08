@@ -16,3 +16,33 @@ Based on the information given, break this ticket down into 2-5 individual ticke
 You will be graded on the level of detail in each ticket, the clarity of the execution plan within and between tickets, and the intelligibility of your language. You don't need to be a native English speaker, but please proof-read your work.
 
 ## Your Breakdown Here
+
+# Ticket 1
+
+Create new database table `AgentFacility` to hold information of each agent in each facility. It should have the following fields:
+ - `id` (primary key autoincrement)
+ - `agent_id` (foreign key to table Agent, not null)
+ - `facility_id` (foreign key to table Facility, not null)
+ - `custom_id` (number, not null)
+ - `hidden_at` (timestamp, null)
+ - `created` (timestamp, not null)
+ - `created_by` (foreign key to user table, not null)
+
+# Ticket 2 
+
+1. Alter the function that creates agents in our database so that whenever a new agent is inserted in the `Agent` table, then it is also inserted in `AgentFacility` table, one record for each facility we have (`custom_id` should be the internal id of the agent).
+2. Alter the function that creates facility in our database so that whenever a new facility is inserted in the `Facility` table, then it is also inserted in `AgentFacility` table, one record for each agent we have (`custom_id` should be the internal id of the agent).
+
+# Ticket 3
+
+Fill the database table `AgentFacility` with all current agents in all facilities that we have, so that each agent must have one record here for each facility (`custom_id` should be the internal id of the agent).
+
+# Ticket 4
+
+Implement a new functionality in the system so that Facility managers can assign custom ids in their Facility to each agent. 
+Managers should see a list of all employees and be able to assign a number to them. If they change the number of an agent that already had a number assigned to them, you should set hidden_at to the timestamp that the new number was informed and then add another record for the new number, this way we can verify older reports that might have had other `custom_id` for a `agent_id` in the past.  This way, multiple custom ids can be created for the same agent in the same facility, however only the last one of them will have hidden_at null and we will always use this filter when querying this table.
+
+# Ticket 5
+
+Alter the `getShiftsByFacility` function to provide the new `custom_id` field instead of the agent internal id. This means that you will need to modify the database data fetch to consider the new table `AgentFacility` where for any given `facility_id` and `agent_id` we will have at most one `custom_id` that has `hidden_at` null. 
+There is a possibility of any given agent to not have a record in the 
