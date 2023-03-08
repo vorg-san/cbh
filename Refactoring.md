@@ -9,3 +9,8 @@ You've been asked to refactor the function `deterministicPartitionKey` in [`dpk.
 You will be graded on the exhaustiveness and quality of your unit tests, the depth of your refactor, and the level of insight into your thought process provided by the written explanation.
 
 ## Your Explanation Here
+
+Here are some improvements and their reasons:
+ - the same cryptoHash `crypto.createHash("sha3-512")` is used twice, so that is better initialized only once and reused
+ - initialization of candidate is much more succinct being declared and initialized at the same time with a ternary operator coupled with || instead of a bunch of ifs
+ - no need to test below if candidate is not null since the new initialization guarantees that it is not
