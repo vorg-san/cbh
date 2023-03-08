@@ -40,9 +40,10 @@ Fill the database table `AgentFacility` with all current agents in all facilitie
 # Ticket 4
 
 Implement a new functionality in the system so that Facility managers can assign custom ids in their Facility to each agent. 
-Managers should see a list of all employees and be able to assign a number to them. If they change the number of an agent that already had a number assigned to them, you should set hidden_at to the timestamp that the new number was informed and then add another record for the new number, this way we can verify older reports that might have had other `custom_id` for a `agent_id` in the past.  This way, multiple custom ids can be created for the same agent in the same facility, however only the last one of them will have hidden_at null and we will always use this filter when querying this table.
+
+Managers should see a list of all employees and be able to assign a number to them. If they change the number of an agent that already had a number assigned to them, you should set hidden_at to the timestamp that the new number was informed and then add another record for the new number, this way we can verify older reports that might have had other `custom_id` for a `agent_id` in the past. This way, multiple custom ids can be created for the same agent in the same facility, however only the last one of them will have `hidden_at` null and we will always use this filter when querying this table.
 
 # Ticket 5
 
 Alter the `getShiftsByFacility` function to provide the new `custom_id` field instead of the agent internal id. This means that you will need to modify the database data fetch to consider the new table `AgentFacility` where for any given `facility_id` and `agent_id` we will have at most one `custom_id` that has `hidden_at` null. 
-There is a possibility of any given agent to not have a record in the 
+
